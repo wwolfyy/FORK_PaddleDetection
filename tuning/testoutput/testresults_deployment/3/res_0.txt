@@ -1,0 +1,5 @@
+{"type": "text", "bbox": [197, 126, 307, 199], "res": "", "img_idx": 0}
+{"type": "footer", "bbox": [282, 795, 311, 804], "res": "", "img_idx": 0}
+{"type": "reference", "bbox": [126, 33, 535, 64], "res": "", "img_idx": 0}
+{"type": "reference", "bbox": [196, 126, 309, 196], "res": "", "img_idx": 0}
+{"type": "reference", "bbox": [197, 184, 304, 199], "res": "", "img_idx": 0}

@@ -86,3 +86,12 @@ kernel_meta/
 # MAC
 *.DS_Store
 
+# data
+/dataset/
+/tuning/testdata/
+
+# model weights
+*.pdparams*
+*.pdmodel*
+*.pdema
+*.pdopt

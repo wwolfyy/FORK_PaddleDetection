@@ -168,7 +168,7 @@ def run(FLAGS, cfg):
 
     # inference
     if FLAGS.slice_infer:
-        trainer.slice_predict(
+        results = trainer.slice_predict(
             images,
             slice_size=FLAGS.slice_size,
             overlap_ratio=FLAGS.overlap_ratio,
@@ -180,13 +180,13 @@ def run(FLAGS, cfg):
             save_results=FLAGS.save_results,
             visualize=FLAGS.visualize)
     else:
-        trainer.predict(
+        results = trainer.predict(
             images,
             draw_threshold=FLAGS.draw_threshold,
             output_dir=FLAGS.output_dir,
             save_results=FLAGS.save_results,
             visualize=FLAGS.visualize)
-
+    return results
 
 def main():
     FLAGS = parse_args()
@@ -230,7 +230,7 @@ def main():
     check_mlu(cfg.use_mlu)
     check_version()
 
-    run(FLAGS, cfg)
+    results = run(FLAGS, cfg)
 
 
 if __name__ == '__main__':
