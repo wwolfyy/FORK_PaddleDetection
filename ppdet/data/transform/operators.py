@@ -104,6 +104,9 @@ class BaseOperator(object):
             for i in range(len(sample)):
                 sample[i] = self.apply(sample[i], context)
         else:
+            # print(type(sample))
+            # print(type(context))
+            # print(sample)
             sample = self.apply(sample, context)
         return sample
 
@@ -121,8 +124,13 @@ class Decode(BaseOperator):
     def apply(self, sample, context=None):
         """ load image if 'im_file' field is not empty but 'image' is"""
         if 'image' not in sample:
+            # print('image not in sample')
             with open(sample['im_file'], 'rb') as f:
                 sample['image'] = f.read()
+            # print(type(sample['image']))
+            # print(sample['im_file'])
+            # if isinstance(sample['image'], bytes):
+            #     sample['image'] = cv2.imread(sample['im_file'])
             sample.pop('im_file')
 
         try:
@@ -134,6 +142,10 @@ class Decode(BaseOperator):
             im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
         except:
             im = sample['image']
+
+        # if isinstance(im, bytes):
+        #     print()
+        #     im = cv2.imread(sample['im_file'])
 
         sample['image'] = im
         if 'h' not in sample:
@@ -823,7 +835,7 @@ class RandomFlip(BaseOperator):
 class Resize(BaseOperator):
     def __init__(self, target_size, keep_ratio, interp=cv2.INTER_LINEAR):
         """
-        Resize image to target size. if keep_ratio is True, 
+        Resize image to target size. if keep_ratio is True,
         resize the image's long side to the maximum of target_size
         if keep_ratio is False, resize the image to target size(h, w)
         Args:
@@ -1091,7 +1103,7 @@ class RandomResize(BaseOperator):
             target_size (int, list, tuple): image target size, if random size is True, must be list or tuple
             keep_ratio (bool): whether keep_raio or not, default true
             interp (int): the interpolation method
-            random_range (bool): whether random select target size of image, the target_size must be 
+            random_range (bool): whether random select target size of image, the target_size must be
                 a [[min_short_edge, long_edge], [max_short_edge, long_edge]]
             random_size (bool): whether random select target size of image
             random_interp (bool): whether random select interpolation method
@@ -1886,7 +1898,7 @@ class RandomScaledCrop(BaseOperator):
 @register_op
 class Cutmix(BaseOperator):
     def __init__(self, alpha=1.5, beta=1.5):
-        """ 
+        """
         CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features, see https://arxiv.org/abs/1905.04899
         Cutmix image and gt_bbbox/gt_score
         Args:
@@ -2400,7 +2412,7 @@ class Poly2Mask(BaseOperator):
 
 @register_op
 class AugmentHSV(BaseOperator):
-    """ 
+    """
     Augment the SV channel of image data.
     Args:
         fraction (float): the fraction for augment. Default: 0.5.
@@ -2514,7 +2526,7 @@ class RandomResizeCrop(BaseOperator):
         'long', resize the image's long side to the maximum of target_size, if keep_ratio is
         True and mode is 'short', resize the image's short side to the minimum of target_size.
         cropsizes (list): crop sizes after resize, [(min_crop_1, max_crop_1), ...]
-        mode (str): resize mode, `long` or `short`. Details see resizes. 
+        mode (str): resize mode, `long` or `short`. Details see resizes.
         prob (float): probability of this op.
         keep_ratio (bool): whether keep_ratio or not, default true
         interp (int): the interpolation method

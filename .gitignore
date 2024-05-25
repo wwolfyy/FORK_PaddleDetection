@@ -89,9 +89,22 @@ kernel_meta/
 # data
 /dataset/
 /tuning/testdata/
+/tuning/testresults/
+/tuning/testresults_deployment/
+/tuning/trained_weights/
+/tuning/exported_model/
+/tuning/trained_weights/
+/tuning/vdl_log/
+/tuning/vdl_log_test/
+/tuning/output/
+/tuning/exported_model/
 
 # model weights
 *.pdparams*
 *.pdmodel*
 *.pdema
 *.pdopt
+
+# configs & env
+**/.config
+**/.env

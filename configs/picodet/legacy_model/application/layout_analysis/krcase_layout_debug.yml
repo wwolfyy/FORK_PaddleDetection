@@ -1,11 +1,19 @@
-_BASE_: [
+BASE_: [
   '../../../../runtime.yml',
   '../../_base_/picodet_esnet.yml',
   '../../_base_/optimizer_100e.yml',
   '../../_base_/picodet_640_reader.yml',
 ]
 
-pretrain_weights: './tuning/trained_weights/output_CDLApretrained/model.pdparams'
+# pretrain_weights: './tuning/trained_weights/output_CDLApretrained/model.pdparams'
+
+# pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/LCNet_x1_0_pretrained.pdparams
+
+# pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/LCNet_x2_5_ssld_pretrained.pdparams
+
+# pretrain_weights: './output_20240503/best_model.pdparams'  # LCNet 2.5
+
+
 weights: out
 find_unused_parameters: True
 use_ema: true
@@ -28,7 +36,6 @@ num_classes: 11
 
 TrainDataset:
   !COCODataSet
-    # name: COCODataSet
     image_dir: train
     anno_path: train.json
     dataset_dir: ./dataset/_CDLA_DATASET/coco
@@ -37,7 +44,6 @@ TrainDataset:
 
 EvalDataset:
   !COCODataSet
-    # name: COCODataSet
     image_dir: val
     anno_path: val.json
     dataset_dir: ./dataset/_CDLA_DATASET/coco
@@ -47,7 +53,6 @@ EvalDataset:
 TestDataset:
   !ImageFolder
     anno_path: ./dataset/_CDLA_DATASET/coco/val.json
-
 
 worker_num: 1
 eval_height: &eval_height 800

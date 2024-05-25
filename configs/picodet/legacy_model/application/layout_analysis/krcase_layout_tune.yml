@@ -5,13 +5,20 @@ _BASE_: [
   '../../_base_/picodet_640_reader.yml',
 ]
 
-pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/LCNet_x1_0_pretrained.pdparams
-weights: output/picodet_lcnet_x1_0_layout/model_final
+# pretrain_weights: './tuning/trained_weights/output_CDLApretrained/model.pdparams'
+
+# pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/LCNet_x1_0_pretrained.pdparams
+
+pretrain_weights: https://paddledet.bj.bcebos.com/models/pretrained/LCNet_x2_5_ssld_pretrained.pdparams
+
+# pretrain_weights: './output_20240503/best_model.pdparams'  # LCNet 2.5
+
+weights: out
 find_unused_parameters: True
 use_ema: true
 cycle_epoch: 10
 snapshot_epoch: 1
-epoch: 100
+epoch: 200
 
 PicoDet:
   backbone: LCNet
@@ -24,24 +31,29 @@ LCNet:
   feature_maps: [3, 4, 5]
 
 metric: COCO
-num_classes: 5
+num_classes: 20
 
 TrainDataset:
   !COCODataSet
+    # name: COCODataSet
     image_dir: train
-    anno_path: train.json
-    dataset_dir: ../dataset/_PUBLAYNET/publaynet/
+    anno_path: labels_fixed.json
+    dataset_dir: ../dataset/_KRCASE_20240516
     data_fields: ['image', 'gt_bbox', 'gt_class', 'is_crowd']
+    # label_list: ../dataset/_CDLA_DATASET/labelx.txt
 
 EvalDataset:
   !COCODataSet
+    # name: COCODataSet
     image_dir: val
     anno_path: val.json
-    dataset_dir: ../dataset/_PUBLAYNET/publaynet/
+    dataset_dir: ../dataset/_CDLA_DATASET/coco
+    data_fields: ['image', 'gt_bbox', 'gt_class', 'is_crowd']
+    # label_list: ../dataset/_CDLA_DATASET/labelx.txt
 
 TestDataset:
   !ImageFolder
-    anno_path: ../dataset/_PUBLAYNET/publaynet/val.json
+    anno_path: ../dataset/_CDLA_DATASET/coco/val.json
 
 
 worker_num: 8
@@ -59,7 +71,7 @@ TrainReader:
   - BatchRandomResize: {target_size: [[768, 576], [800, 608], [832, 640]], random_size: True, random_interp: True, keep_ratio: False}
   - NormalizeImage: {is_scale: true, mean: [0.485,0.456,0.406], std: [0.229, 0.224,0.225]}
   - Permute: {}
-  batch_size: 24
+  batch_size: 6
   shuffle: true
   drop_last: true
   collate_batch: false
@@ -72,7 +84,7 @@ EvalReader:
   - Permute: {}
   batch_transforms:
   - PadBatch: {pad_to_stride: 32}
-  batch_size: 8
+  batch_size: 1
   shuffle: false
 
 
