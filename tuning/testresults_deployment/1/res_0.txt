@@ -1,3 +1,0 @@
-{"type": "text", "bbox": [56, 125, 537, 739], "res": "", "img_idx": 0}
-{"type": "header", "bbox": [172, 34, 535, 59], "res": "", "img_idx": 0}
-{"type": "footer", "bbox": [292, 795, 303, 803], "res": "", "img_idx": 0}
